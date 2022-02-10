@@ -22,6 +22,9 @@
         "tsconfig-client.json"
       ],
       "sourceType": "module"
+    },
+    "rules": {
+      "arrow-body-style": "off"
     }
   },
   "devDependencies": {
