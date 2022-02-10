@@ -1,0 +1,72 @@
+{
+  "name": "@zenml/slide",
+  "version": "0.0.0",
+  "author": "Ziphil",
+  "description": "",
+  "homepage": "https://github.com/Ziphil/ZenmlSlide",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "scripts": {
+    "develop": "",
+    "build": "run-s build:client build:main",
+    "build:client": "webpack --config webpack-client.ts",
+    "build:main": "webpack --config webpack-main.ts",
+    "prepare": "npm run build"
+  },
+  "eslintConfig": {
+    "extends": "ziphil",
+    "ignorePatterns": "webpack-*.ts",
+    "parserOptions": {
+      "project": [
+        "tsconfig-main.json",
+        "tsconfig-client.json"
+      ],
+      "sourceType": "module"
+    },
+    "rules": {
+      "arrow-body-style": "off"
+    }
+  },
+  "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/command-line-args": "^5.2.0",
+    "@types/dot": "^1.1.5",
+    "@types/glob": "^7.2.0",
+    "@types/sass": "^1.43.1",
+    "@types/webpack": "^5.28.0",
+    "@types/webpack-node-externals": "^2.5.3",
+    "@typescript-eslint/eslint-plugin": "^4.9.0",
+    "@typescript-eslint/parser": "^4.9.0",
+    "eslint": "^7.32.0",
+    "eslint-config-ziphil": "^1.2.2",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsdoc": "^30.7.13",
+    "npm-run-all": "^4.1.5",
+    "raw-loader": "^4.0.2",
+    "sass-loader": "^12.4.0",
+    "source-map-loader": "^3.0.1",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.3.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.5.4",
+    "webpack-cli": "^4.9.1",
+    "webpack-node-externals": "^3.0.0",
+    "webpack-shell-plugin-next": "^2.2.2"
+  },
+  "dependencies": {
+    "@typescript/lib-dom": "npm:@zenml/xmldom-type",
+    "@zenml/xmldom": "^1.0.0",
+    "@zenml/zenml": "^1.0.1",
+    "@zenml/zotica": "^1.0.0",
+    "chalk": "^4.1.2",
+    "chokidar": "^3.5.2",
+    "command-line-args": "^5.2.0",
+    "dayjs": "^1.10.7",
+    "dot": "^1.1.3",
+    "glob": "^7.2.0",
+    "glob-promise": "^4.2.2",
+    "sass": "^1.48.0",
+    "source-map-support": "^0.5.21",
+    "webpack": "^5.66.0"
+  }
+}
