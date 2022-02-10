@@ -24,15 +24,6 @@ export class SlideTransformer extends BaseTransformer<SlideDocument, SlideTransf
     this.template = dotjs.template(TEMPLATE_HTML, {...dotjs.templateSettings, strip: false});
   }
 
-  protected applyElement(element: Element, scope: string, args: any): NodeLikeOf<SlideDocument> {
-    let self = super.applyElement(element, scope, args);
-    let index = args?.index;
-    if (typeof index === "number") {
-      self.setRange(element, index);
-    }
-    return self;
-  }
-
   protected stringify(document: SlideDocument): string {
     let defaultHeader = `<style>${DEFAULT_STYLE_STRING}</style><script>${DEFAULT_SCRIPT_STRING}</script>`;
     let view = {
