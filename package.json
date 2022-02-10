@@ -2,7 +2,7 @@
   "name": "@zenml/slide",
   "version": "0.0.0",
   "author": "Ziphil",
-  "description": "",
+  "description": "utilities for generating presentation-ready files from a ZenML document",
   "homepage": "https://github.com/Ziphil/ZenmlSlide",
   "license": "MIT",
   "main": "dist/index.js",
