@@ -9,7 +9,7 @@ import {
 import dotjs from "dot";
 import DEFAULT_SCRIPT_STRING from "../../dist/script.js";
 import DEFAULT_STYLE_STRING from "../resource/style.scss";
-import TEMPLATE_HTML from "../template-default/template.html";
+import TEMPLATE_HTML from "../resource/template.html";
 import type {
   SlideDocument
 } from "./dom";

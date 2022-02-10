@@ -16,7 +16,7 @@ import sass from "sass";
 import {
   SourceSpan as SassSourceSpan
 } from "sass";
-import defaultTemplateManagers from "../template-default";
+import defaultTemplateManagers from "../template";
 import {
   SlideDocument
 } from "./dom";
