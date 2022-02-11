@@ -49,7 +49,7 @@ manager.registerElementRule("slide", "root", (transformer, document, element) =>
       self.setAttribute("data-page", page.toString());
       self.setAttribute("data-index", index.toString());
       self.appendElement("div", (self) => {
-        self.addClassName("slide-container");
+        self.addClassName("content-container");
         self.appendChild(transformer.apply(element, "slide", {page, index}));
       });
     });
