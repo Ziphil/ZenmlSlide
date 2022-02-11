@@ -2,6 +2,7 @@
 
 export * from "./generator/dom";
 export * from "./generator/generator";
+export * from "./generator/hook";
 export * from "./generator/transformer";
 
 
