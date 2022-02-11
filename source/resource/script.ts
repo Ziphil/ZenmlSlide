@@ -13,10 +13,8 @@ function prepare(): void {
     }
   });
   let match = location.hash.match(/#(\d+)/);
-  if (match !== null) {
-    let page = parseInt(match[1]);
-    setPage(page);
-  }
+  let page = (match !== null) ? parseInt(match[1]) : 1;
+  setPage(page);
   console.info("[ZenmlSlide] Ready");
 }
 
