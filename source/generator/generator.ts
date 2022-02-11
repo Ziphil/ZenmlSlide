@@ -5,7 +5,8 @@ import {
 } from "@zenml/xmldom";
 import {
   ZenmlParser,
-  ZenmlPluginManager
+  ZenmlPluginManager,
+  measureAsync
 } from "@zenml/zenml";
 import chalk from "chalk";
 import commandLineArgs from "command-line-args";
@@ -63,7 +64,7 @@ export class SlideGenerator {
   private async saveNormal(documentPath: string): Promise<void> {
     let intervals = {convert: 0};
     try {
-      intervals.convert = await SlideGenerator.measure(async () => {
+      intervals.convert = await measureAsync(async () => {
         await this.transformNormal(documentPath);
       });
       this.printNormal(documentPath, intervals, true);
@@ -171,14 +172,6 @@ export class SlideGenerator {
 
   private checkValidDocumentPath(documentPath: string): boolean {
     return true;
-  }
-
-  private static async measure(callback: () => Promise<void>): Promise<number> {
-    let before = process.hrtime();
-    await callback();
-    let [elapsedSeconds, elapsedNanoseconds] = process.hrtime(before);
-    let interval = Math.floor(elapsedSeconds * 1000 + elapsedNanoseconds / 1000000);
-    return interval;
   }
 
 }
