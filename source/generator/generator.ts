@@ -31,10 +31,10 @@ export class SlideGenerator {
 
   private parser!: ZenmlParser;
   private transformer!: SlideTransformer;
-  private configs!: SlideGeneratorConfigs;
+  private configs!: SlideConfigs;
   private options!: any;
 
-  public constructor(configs: SlideGeneratorConfigs) {
+  public constructor(configs: SlideConfigs) {
     this.configs = configs;
   }
 
@@ -181,7 +181,7 @@ export class SlideGenerator {
 }
 
 
-export type SlideGeneratorConfigs = {
+export type SlideConfigs = {
   pluginManagers?: Array<ZenmlPluginManager>,
   templateManagers?: Array<SlideTemplateManager>,
   filterDocumentPath?: (documentPath: string) => boolean,
