@@ -139,7 +139,7 @@ export class SlideGenerator {
   protected createParser(): ZenmlParser {
     let implementation = new DOMImplementation();
     let parser = new ZenmlParser(implementation, {specialElementNames: {brace: "x", bracket: "xn", slash: "i"}});
-    for (let manager of this.configs.pluginManagers) {
+    for (let manager of this.configs.pluginManagers ?? []) {
       parser.registerPluginManager(manager);
     }
     return parser;
@@ -147,7 +147,7 @@ export class SlideGenerator {
 
   protected createTransformer(): SlideTransformer {
     let transformer = new SlideTransformer(() => new SlideDocument({includeDeclaration: false, html: true}));
-    for (let manager of this.configs.templateManagers) {
+    for (let manager of this.configs.templateManagers ?? []) {
       transformer.regsiterTemplateManager(manager);
     }
     for (let manager of defaultTemplateManagers) {
@@ -171,15 +171,20 @@ export class SlideGenerator {
   }
 
   private checkValidDocumentPath(documentPath: string): boolean {
-    return true;
+    if (this.configs.filterDocumentPath !== undefined) {
+      return this.configs.filterDocumentPath(documentPath);
+    } else {
+      return true;
+    }
   }
 
 }
 
 
 export type SlideGeneratorConfigs = {
-  pluginManagers: Array<ZenmlPluginManager>,
-  templateManagers: Array<SlideTemplateManager>,
+  pluginManagers?: Array<ZenmlPluginManager>,
+  templateManagers?: Array<SlideTemplateManager>,
+  filterDocumentPath?: (documentPath: string) => boolean,
   documentDirPath: string,
   outputDirPath: string,
   errorLogPath: string,
