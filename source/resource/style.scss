@@ -7,9 +7,6 @@ body {
   margin: 0px;
   padding: 0px;
   background-color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
 }
 
@@ -19,7 +16,6 @@ body {
   margin: 0px auto;
   padding: 0px;
   aspect-ratio: 16 / 9;
-  flex-grow: 1;
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
