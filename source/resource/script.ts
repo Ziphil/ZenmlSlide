@@ -2,7 +2,7 @@
 /// <reference path="../../node_modules/typescript/lib/lib.dom.iterable.d.ts"/>
 
 
-let currentPage = 0;
+let currentPage = 1;
 
 function prepare(): void {
   document.addEventListener("keydown", (event) => {
@@ -22,10 +22,10 @@ function prepare(): void {
 
 function setPage(nextPage: number): void {
   let slideElements = document.querySelectorAll<HTMLElement>(".slide");
-  let maxPage = slideElements.length - 1;
+  let maxPage = slideElements.length;
   currentPage = nextPage;
-  if (currentPage < 0) {
-    currentPage = 0;
+  if (currentPage < 1) {
+    currentPage = 1;
   }
   if (currentPage > maxPage) {
     currentPage = maxPage;
