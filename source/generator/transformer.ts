@@ -9,7 +9,7 @@ import {
 import dotjs from "dot";
 import DEFAULT_SCRIPT_STRING from "../../dist/script.js";
 import DEFAULT_STYLE_STRING from "../resource/style.scss";
-import TEMPLATE_HTML from "../template-default/template.html";
+import TEMPLATE_HTML from "../resource/template.html";
 import type {
   SlideDocument
 } from "./dom";
@@ -22,15 +22,6 @@ export class SlideTransformer extends BaseTransformer<SlideDocument, SlideTransf
   public constructor(implementation: () => SlideDocument) {
     super(implementation);
     this.template = dotjs.template(TEMPLATE_HTML, {...dotjs.templateSettings, strip: false});
-  }
-
-  protected applyElement(element: Element, scope: string, args: any): NodeLikeOf<SlideDocument> {
-    let self = super.applyElement(element, scope, args);
-    let index = args?.index;
-    if (typeof index === "number") {
-      self.setRange(element, index);
-    }
-    return self;
   }
 
   protected stringify(document: SlideDocument): string {

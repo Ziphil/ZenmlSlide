@@ -22,7 +22,7 @@ function calcMaxIndex(element: Element): number {
     }
   });
   let indices = rawIndices.filter((index) => index !== null) as Array<number>;
-  let maxIndex = (indices.length > 0) ? Math.max(...indices) : 0;
+  let maxIndex = (indices.length > 0) ? Math.max(...indices) : 1;
   return maxIndex;
 }
 
@@ -42,14 +42,14 @@ manager.registerElementRule("root", "", (transformer, document, element) => {
 manager.registerElementRule("slide", "root", (transformer, document, element) => {
   let self = document.createDocumentFragment();
   let maxIndex = calcMaxIndex(element);
-  for (let index = 0 ; index <= maxIndex ; index ++) {
-    let page = transformer.variables.slideSize ++;
+  for (let index = 1 ; index <= maxIndex ; index ++) {
+    let page = ++ transformer.variables.slideSize;
     self.appendElement("article", (self) => {
       self.addClassName("slide");
       self.setAttribute("data-page", page.toString());
       self.setAttribute("data-index", index.toString());
       self.appendElement("div", (self) => {
-        self.addClassName("slide-container");
+        self.addClassName("content-container");
         self.appendChild(transformer.apply(element, "slide", {page, index}));
       });
     });

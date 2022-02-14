@@ -32,8 +32,8 @@ export class Range {
   public static fromString(string: string): Range | null {
     let match = string.match(/(\d*)-(\d*)/);
     if (match !== null) {
-      let start = (match[1] === "") ? null : parseInt(match[1]) - 1;
-      let end = (match[2] === "") ? null : parseInt(match[2]) - 1;
+      let start = (match[1] === "") ? null : parseInt(match[1]);
+      let end = (match[2] === "") ? null : parseInt(match[2]);
       let range = new Range(start, end);
       return range;
     } else {

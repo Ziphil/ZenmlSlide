@@ -5,7 +5,8 @@ import {
 } from "@zenml/xmldom";
 import {
   ZenmlParser,
-  ZenmlPluginManager
+  ZenmlPluginManager,
+  measureAsync
 } from "@zenml/zenml";
 import chalk from "chalk";
 import commandLineArgs from "command-line-args";
@@ -16,7 +17,7 @@ import sass from "sass";
 import {
   SourceSpan as SassSourceSpan
 } from "sass";
-import defaultTemplateManagers from "../template-default";
+import defaultTemplateManagers from "../template";
 import {
   SlideDocument
 } from "./dom";
@@ -30,10 +31,10 @@ export class SlideGenerator {
 
   private parser!: ZenmlParser;
   private transformer!: SlideTransformer;
-  private configs!: SlideGeneratorConfigs;
+  private configs!: SlideConfigs;
   private options!: any;
 
-  public constructor(configs: SlideGeneratorConfigs) {
+  public constructor(configs: SlideConfigs) {
     this.configs = configs;
   }
 
@@ -63,7 +64,7 @@ export class SlideGenerator {
   private async saveNormal(documentPath: string): Promise<void> {
     let intervals = {convert: 0};
     try {
-      intervals.convert = await SlideGenerator.measure(async () => {
+      intervals.convert = await measureAsync(async () => {
         await this.transformNormal(documentPath);
       });
       this.printNormal(documentPath, intervals, true);
@@ -138,7 +139,7 @@ export class SlideGenerator {
   protected createParser(): ZenmlParser {
     let implementation = new DOMImplementation();
     let parser = new ZenmlParser(implementation, {specialElementNames: {brace: "x", bracket: "xn", slash: "i"}});
-    for (let manager of this.configs.pluginManagers) {
+    for (let manager of this.configs.pluginManagers ?? []) {
       parser.registerPluginManager(manager);
     }
     return parser;
@@ -146,7 +147,7 @@ export class SlideGenerator {
 
   protected createTransformer(): SlideTransformer {
     let transformer = new SlideTransformer(() => new SlideDocument({includeDeclaration: false, html: true}));
-    for (let manager of this.configs.templateManagers) {
+    for (let manager of this.configs.templateManagers ?? []) {
       transformer.regsiterTemplateManager(manager);
     }
     for (let manager of defaultTemplateManagers) {
@@ -170,23 +171,20 @@ export class SlideGenerator {
   }
 
   private checkValidDocumentPath(documentPath: string): boolean {
-    return true;
-  }
-
-  private static async measure(callback: () => Promise<void>): Promise<number> {
-    let before = process.hrtime();
-    await callback();
-    let [elapsedSeconds, elapsedNanoseconds] = process.hrtime(before);
-    let interval = Math.floor(elapsedSeconds * 1000 + elapsedNanoseconds / 1000000);
-    return interval;
+    if (this.configs.filterDocumentPath !== undefined) {
+      return this.configs.filterDocumentPath(documentPath);
+    } else {
+      return true;
+    }
   }
 
 }
 
 
-export type SlideGeneratorConfigs = {
-  pluginManagers: Array<ZenmlPluginManager>,
-  templateManagers: Array<SlideTemplateManager>,
+export type SlideConfigs = {
+  pluginManagers?: Array<ZenmlPluginManager>,
+  templateManagers?: Array<SlideTemplateManager>,
+  filterDocumentPath?: (documentPath: string) => boolean,
   documentDirPath: string,
   outputDirPath: string,
   errorLogPath: string,
