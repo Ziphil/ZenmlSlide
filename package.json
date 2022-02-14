@@ -1,6 +1,6 @@
 {
   "name": "@zenml/slide",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "Ziphil",
   "description": "Utilities for generating presentation-ready files from a ZenML document",
   "homepage": "https://github.com/Ziphil/ZenmlSlide",
