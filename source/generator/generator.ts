@@ -39,7 +39,7 @@ export class SlideGenerator {
   }
 
   public async execute(): Promise<void> {
-    let options = commandLineArgs([
+    const options = commandLineArgs([
       {name: "documentPaths", multiple: true, defaultOption: true},
       {name: "image", alias: "i", type: Boolean}
     ]);
@@ -54,15 +54,15 @@ export class SlideGenerator {
   }
 
   private async executeNormal(): Promise<void> {
-    let documentPaths = await this.getDocumentPaths(this.options.documentPaths ?? []);
-    let promises = documentPaths.map(async (documentPath) => {
+    const documentPaths = await this.getDocumentPaths(this.options.documentPaths ?? []);
+    const promises = documentPaths.map(async (documentPath) => {
       await this.saveNormal(documentPath);
     });
     await Promise.all(promises);
   }
 
   private async saveNormal(documentPath: string): Promise<void> {
-    let intervals = {convert: 0};
+    const intervals = {convert: 0};
     try {
       intervals.convert = await measureAsync(async () => {
         await this.transformNormal(documentPath);
@@ -75,9 +75,9 @@ export class SlideGenerator {
   }
 
   private async transformNormal(documentPath: string): Promise<void> {
-    let extension = pathUtil.extname(documentPath).slice(1);
-    let outputPaths = this.getOutputPaths(documentPath);
-    let promises = outputPaths.map(async (outputPath) => {
+    const extension = pathUtil.extname(documentPath).slice(1);
+    const outputPaths = this.getOutputPaths(documentPath);
+    const promises = outputPaths.map(async (outputPath) => {
       if (extension === "zml") {
         await this.transformNormalZml(documentPath, outputPath);
       } else if (extension === "scss") {
@@ -88,22 +88,22 @@ export class SlideGenerator {
   }
 
   private async transformNormalZml(documentPath: string, outputPath: string): Promise<void> {
-    let inputString = await fs.readFile(documentPath, {encoding: "utf-8"});
-    let inputDocument = this.parser.tryParse(inputString);
-    let outputString = this.transformer.transformStringify(inputDocument);
+    const inputString = await fs.readFile(documentPath, {encoding: "utf-8"});
+    const inputDocument = this.parser.tryParse(inputString);
+    const outputString = this.transformer.transformStringify(inputDocument);
     await fs.mkdir(pathUtil.dirname(outputPath), {recursive: true});
     await fs.writeFile(outputPath, outputString, {encoding: "utf-8"});
   }
 
   private async transformNormalScss(documentPath: string, outputPath: string): Promise<void> {
-    let logMessage = function (message: string, options: {span?: SassSourceSpan}): void {
+    const logMessage = function (message: string, options: {span?: SassSourceSpan}): void {
       Function.prototype();
     };
-    let options = {
+    const options = {
       file: documentPath,
       logger: {debug: logMessage, warn: logMessage}
     };
-    let outputString = sass.renderSync(options).css.toString("utf-8");
+    const outputString = sass.renderSync(options).css.toString("utf-8");
     await fs.mkdir(pathUtil.dirname(outputPath), {recursive: true});
     await fs.writeFile(outputPath, outputString, {encoding: "utf-8"});
   }
@@ -124,7 +124,7 @@ export class SlideGenerator {
 
   private async logError(documentPath: string, error: unknown): Promise<void> {
     let output = "";
-    let logPath = this.configs.errorLogPath;
+    const logPath = this.configs.errorLogPath;
     output += `[${documentPath}]` + "\n";
     if (error instanceof Error) {
       output += error.message.trim() + "\n";
@@ -137,28 +137,28 @@ export class SlideGenerator {
   }
 
   protected createParser(): ZenmlParser {
-    let implementation = new DOMImplementation();
-    let parser = new ZenmlParser(implementation, {specialElementNames: {brace: "x", bracket: "xn", slash: "i"}});
-    for (let manager of this.configs.pluginManagers ?? []) {
+    const implementation = new DOMImplementation();
+    const parser = new ZenmlParser(implementation, {specialElementNames: {brace: "x", bracket: "xn", slash: "i"}});
+    for (const manager of this.configs.pluginManagers ?? []) {
       parser.registerPluginManager(manager);
     }
     return parser;
   }
 
   protected createTransformer(): SlideTransformer {
-    let transformer = new SlideTransformer(() => new SlideDocument({includeDeclaration: false, html: true}));
-    for (let manager of this.configs.templateManagers ?? []) {
+    const transformer = new SlideTransformer(() => new SlideDocument({includeDeclaration: false, html: true}));
+    for (const manager of this.configs.templateManagers ?? []) {
       transformer.regsiterTemplateManager(manager);
     }
-    for (let manager of defaultTemplateManagers) {
+    for (const manager of defaultTemplateManagers) {
       transformer.regsiterTemplateManager(manager);
     }
     return transformer;
   }
 
   private async getDocumentPaths(rawDocumentPaths: Array<string>): Promise<Array<string>> {
-    let allDocumentPaths = (rawDocumentPaths.length >= 1) ? rawDocumentPaths : await glob(this.configs.documentDirPath + "/**/*", {nodir: true});
-    let documentPaths = allDocumentPaths.filter((documentPath) => this.checkValidDocumentPath(documentPath));
+    const allDocumentPaths = (rawDocumentPaths.length >= 1) ? rawDocumentPaths : await glob(this.configs.documentDirPath + "/**/*", {nodir: true});
+    const documentPaths = allDocumentPaths.filter((documentPath) => this.checkValidDocumentPath(documentPath));
     return documentPaths;
   }
 
@@ -187,5 +187,5 @@ export type SlideConfigs = {
   filterDocumentPath?: (documentPath: string) => boolean,
   documentDirPath: string,
   outputDirPath: string,
-  errorLogPath: string,
+  errorLogPath: string
 };

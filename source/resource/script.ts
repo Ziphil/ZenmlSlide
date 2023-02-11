@@ -12,15 +12,15 @@ function prepare(): void {
       setPage(currentPage + 1);
     }
   });
-  let match = location.hash.match(/#(\d+)/);
-  let page = (match !== null) ? parseInt(match[1]) : 1;
+  const match = location.hash.match(/#(\d+)/);
+  const page = (match !== null) ? parseInt(match[1]) : 1;
   setPage(page);
   console.info("[ZenmlSlide] Ready");
 }
 
 function setPage(nextPage: number): void {
-  let slideElements = document.querySelectorAll<HTMLElement>(".slide");
-  let maxPage = slideElements.length;
+  const slideElements = document.querySelectorAll<HTMLElement>(".slide");
+  const maxPage = slideElements.length;
   currentPage = nextPage;
   if (currentPage < 1) {
     currentPage = 1;
@@ -30,7 +30,7 @@ function setPage(nextPage: number): void {
   }
   location.hash = currentPage.toString();
   slideElements.forEach((slideElement) => {
-    let page = parseInt(slideElement.getAttribute("data-page") ?? "");
+    const page = parseInt(slideElement.getAttribute("data-page") ?? "");
     if (page === currentPage) {
       slideElement.style.display = "block";
     } else {

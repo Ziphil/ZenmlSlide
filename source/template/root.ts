@@ -8,27 +8,27 @@ import {
 } from "../util/range";
 
 
-let manager = new SlideTemplateManager();
+const manager = new SlideTemplateManager();
 
 function calcMaxIndex(element: Element): number {
-  let rawIndices = element.searchXpath("descendant::node()[@range]").map((child) => {
+  const rawIndices = element.searchXpath("descendant::node()[@range]").map((child) => {
     if (child instanceof Node && child.isElement()) {
-      let rangeString = child.getAttribute("range");
-      let range = Range.fromString(rangeString);
-      let endIndex = range?.end ?? range?.start ?? null;
+      const rangeString = child.getAttribute("range");
+      const range = Range.fromString(rangeString);
+      const endIndex = range?.end ?? range?.start ?? null;
       return endIndex;
     } else {
       return null;
     }
   });
-  let indices = rawIndices.filter((index) => index !== null) as Array<number>;
-  let maxIndex = (indices.length > 0) ? Math.max(...indices) : 1;
+  const indices = rawIndices.filter((index) => index !== null) as Array<number>;
+  const maxIndex = (indices.length > 0) ? Math.max(...indices) : 1;
   return maxIndex;
 }
 
 manager.registerElementRule("root", "", (transformer, document, element) => {
-  let headerNode = document.createDocumentFragment();
-  let mainNode = document.createDocumentFragment();
+  const headerNode = document.createDocumentFragment();
+  const mainNode = document.createDocumentFragment();
   headerNode.appendChild(transformer.apply(element, "header"));
   mainNode.appendElement("div", (self) => {
     self.addClassName("root");
@@ -40,10 +40,10 @@ manager.registerElementRule("root", "", (transformer, document, element) => {
 });
 
 manager.registerElementRule("slide", "root", (transformer, document, element) => {
-  let self = document.createDocumentFragment();
-  let maxIndex = calcMaxIndex(element);
+  const self = document.createDocumentFragment();
+  const maxIndex = calcMaxIndex(element);
   for (let index = 1 ; index <= maxIndex ; index ++) {
-    let page = ++ transformer.variables.slideSize;
+    const page = ++ transformer.variables.slideSize;
     self.appendElement("article", (self) => {
       self.addClassName("slide");
       self.setAttribute("data-page", page.toString());
