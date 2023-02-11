@@ -5,11 +5,11 @@ import {
 } from "../generator/transformer";
 
 
-let manager = new SlideTemplateManager();
+const manager = new SlideTemplateManager();
 
 manager.registerElementRule("use-style", "header", (transformer, document, element) => {
-  let self = document.createDocumentFragment();
-  let content = element.textContent;
+  const self = document.createDocumentFragment();
+  const content = element.textContent;
   if (content === null || content === "") {
     self.appendElement("link", (self) => {
       self.setAttribute("rel", "stylesheet");
@@ -19,7 +19,7 @@ manager.registerElementRule("use-style", "header", (transformer, document, eleme
   } else {
     self.appendElement("style", (self) => {
       self.setAttribute("type", "text/css");
-      self.appendTextNode(content!);
+      self.appendTextNode(content);
     });
   }
   self.appendTextNode("\n");
@@ -27,9 +27,9 @@ manager.registerElementRule("use-style", "header", (transformer, document, eleme
 });
 
 manager.registerElementRule("use-script", "header", (transformer, document, element) => {
-  let self = document.createDocumentFragment();
+  const self = document.createDocumentFragment();
   self.appendElement("script", (self) => {
-    let content = element.textContent;
+    const content = element.textContent;
     if (content === null || content === "") {
       self.setAttribute("src", element.getAttribute("src"));
     } else {

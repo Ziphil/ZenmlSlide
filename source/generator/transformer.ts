@@ -25,14 +25,14 @@ export class SlideTransformer extends BaseTransformer<SlideDocument, SlideTransf
   }
 
   protected stringify(document: SlideDocument): string {
-    let defaultHeader = `<style>${DEFAULT_STYLE_STRING}</style><script>${DEFAULT_SCRIPT_STRING}</script>`;
-    let view = {
+    const defaultHeader = `<style>${DEFAULT_STYLE_STRING}</style><script>${DEFAULT_SCRIPT_STRING}</script>`;
+    const view = {
       environments: this.environments,
       variables: this.variables,
       defaultHeader,
       document
     };
-    let output = this.template(view);
+    const output = this.template(view);
     return output;
   }
 

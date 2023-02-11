@@ -4,7 +4,7 @@ import headerManager from "./header";
 import rootManager from "./root";
 
 
-let managers = [
+const managers = [
   rootManager,
   headerManager
 ];

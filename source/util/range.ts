@@ -12,8 +12,8 @@ export class Range {
   }
 
   public covers(index: number): boolean {
-    let start = this.start;
-    let end = this.end;
+    const start = this.start;
+    const end = this.end;
     if (start === null) {
       if (end === null) {
         return true;
@@ -30,11 +30,11 @@ export class Range {
   }
 
   public static fromString(string: string): Range | null {
-    let match = string.match(/(\d*)-(\d*)/);
+    const match = string.match(/(\d*)-(\d*)/);
     if (match !== null) {
-      let start = (match[1] === "") ? null : parseInt(match[1]);
-      let end = (match[2] === "") ? null : parseInt(match[2]);
-      let range = new Range(start, end);
+      const start = (match[1] === "") ? null : parseInt(match[1]);
+      const end = (match[2] === "") ? null : parseInt(match[2]);
+      const range = new Range(start, end);
       return range;
     } else {
       return null;

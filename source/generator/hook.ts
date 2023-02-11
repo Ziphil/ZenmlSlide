@@ -11,9 +11,9 @@ import {
 
 
 export function withRange<C, V>(rule: TemplateRule<SlideDocument, C, V, Element>): TemplateRule<SlideDocument, C, V, Element> {
-  let wrappedRule = function (transformer: LightTransformer<SlideDocument, C, V>, document: SlideDocument, element: Element, scope: string, args: any): NodeLikeOf<SlideDocument> {
-    let resultNode = rule(transformer, document, element, scope, args);
-    let index = args?.index;
+  const wrappedRule = function (transformer: LightTransformer<SlideDocument, C, V>, document: SlideDocument, element: Element, scope: string, args: any): NodeLikeOf<SlideDocument> {
+    const resultNode = rule(transformer, document, element, scope, args);
+    const index = args?.index;
     if (index !== undefined) {
       resultNode.setRange(element, index);
     }

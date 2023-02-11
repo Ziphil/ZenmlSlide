@@ -4,11 +4,7 @@ import {
   BaseDocument,
   BaseDocumentFragment,
   BaseElement,
-  BaseElementOptions,
-  BaseText,
-  BaseTextOptions,
-  NodeCallback,
-  NodeLikeOf
+  BaseText
 } from "@zenml/zenml";
 import {
   Range
@@ -18,13 +14,13 @@ import {
 export class SlideElement extends BaseElement<SlideDocument, SlideDocumentFragment, SlideElement, SlideText> {
 
   public addClassName(className: string): void {
-    let currentClassName = this.attributes.get("class");
-    let nextClassName = (currentClassName) ? currentClassName + " " + className : className;
+    const currentClassName = this.attributes.get("class");
+    const nextClassName = (currentClassName) ? currentClassName + " " + className : className;
     this.attributes.set("class", nextClassName);
   }
 
   public setRange(element: Element, index: number): void {
-    let range = Range.fromString(element.getAttribute("range"));
+    const range = Range.fromString(element.getAttribute("range"));
     if (range !== null && !range.covers(index)) {
       this.setAttribute("style", (this.getAttribute("style") ?? "") + " visibility: hidden;");
     }
@@ -53,7 +49,7 @@ export class SlideDocument extends BaseDocument<SlideDocument, SlideDocumentFrag
 export class SlideDocumentFragment extends BaseDocumentFragment<SlideDocument, SlideDocumentFragment, SlideElement, SlideText> {
 
   public setRange(element: Element, index: number): void {
-    for (let node of this.nodes) {
+    for (const node of this.nodes) {
       node.setRange(element, index);
     }
   }
